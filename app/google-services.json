@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94838608631",
+    "project_id": "lista-de-tarefas-compose-77902",
+    "storage_bucket": "lista-de-tarefas-compose-77902.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94838608631:android:840bfc0630f73bb93539f2",
+        "android_client_info": {
+          "package_name": "com.suzintech.listatarefas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKVgqqDSr9PoCL4WuNvKvpP5tunhtdRLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
