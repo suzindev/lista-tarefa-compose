@@ -195,7 +195,7 @@ fun SalvarTarefas(
                                     Constants.PRIORIDADE_ALTA
                                 )
                                 mensagem = true
-                            } else if (semPrioridadeTarefa) {
+                            } else {
                                 tarefasRepository.salvar(
                                     tituloTarefa,
                                     descricaoTarefa,

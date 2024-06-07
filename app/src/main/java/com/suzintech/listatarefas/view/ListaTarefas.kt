@@ -3,17 +3,22 @@ package com.suzintech.listatarefas.view
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.suzintech.listatarefas.R
+import com.suzintech.listatarefas.itemLista.TarefaItem
+import com.suzintech.listatarefas.repository.TarefasRepository
 import com.suzintech.listatarefas.ui.theme.BLACK
 import com.suzintech.listatarefas.ui.theme.PURPLE700
 import com.suzintech.listatarefas.ui.theme.WHITE
@@ -23,6 +28,9 @@ import com.suzintech.listatarefas.ui.theme.WHITE
 fun ListaTarefas(
     navController: NavController
 ) {
+    val tarefasRepository = TarefasRepository()
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,11 +82,21 @@ fun ListaTarefas(
 //                prioridade = 3
 //            )
 //        )
+        val listaTarefas = tarefasRepository.findAll().collectAsState(mutableListOf()).value
 
         LazyColumn {
 //            itemsIndexed(listaTarefas) { position, _ ->
 //                TarefaItem(position, listaTarefas)
 //            }
+
+            itemsIndexed(listaTarefas) { position, _ ->
+                TarefaItem(
+                    position = position,
+                    listaTarefas = listaTarefas,
+                    context = context,
+                    navController = navController
+                )
+            }
         }
     }
 }
