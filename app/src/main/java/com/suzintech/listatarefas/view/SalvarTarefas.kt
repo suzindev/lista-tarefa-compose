@@ -1,6 +1,7 @@
 package com.suzintech.listatarefas.view
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.suzintech.listatarefas.components.Botao
 import com.suzintech.listatarefas.components.CaixaTexto
+import com.suzintech.listatarefas.constants.Constants
+import com.suzintech.listatarefas.repository.TarefasRepository
 import com.suzintech.listatarefas.ui.theme.PURPLE700
 import com.suzintech.listatarefas.ui.theme.RADIO_BUTTON_GREEN_DISABLE
 import com.suzintech.listatarefas.ui.theme.RADIO_BUTTON_GREEN_SELECTED
@@ -37,12 +42,18 @@ import com.suzintech.listatarefas.ui.theme.RADIO_BUTTON_RED_SELECTED
 import com.suzintech.listatarefas.ui.theme.RADIO_BUTTON_YELLOW_DISABLE
 import com.suzintech.listatarefas.ui.theme.RADIO_BUTTON_YELLOW_SELECTED
 import com.suzintech.listatarefas.ui.theme.WHITE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SalvarTarefas(
     navController: NavController
 ) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val tarefasRepository = TarefasRepository()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -157,7 +168,58 @@ fun SalvarTarefas(
 
             Botao(
                 onClick = {
+                    var mensagem = true
 
+                    scope.launch(Dispatchers.IO) {
+                        if (tituloTarefa.isBlank()) {
+                            mensagem = false
+                        } else if (tituloTarefa.isNotBlank()) {
+                            if (prioridadeBaixaTarefa) {
+                                tarefasRepository.salvar(
+                                    tituloTarefa,
+                                    descricaoTarefa,
+                                    Constants.PRIORIDADE_BAIXA
+                                )
+                                mensagem = true
+                            } else if (prioridadeMediaTarefa) {
+                                tarefasRepository.salvar(
+                                    tituloTarefa,
+                                    descricaoTarefa,
+                                    Constants.PRIORIDADE_MEDIA
+                                )
+                                mensagem = true
+                            } else if (prioridadeAltaTarefa) {
+                                tarefasRepository.salvar(
+                                    tituloTarefa,
+                                    descricaoTarefa,
+                                    Constants.PRIORIDADE_ALTA
+                                )
+                                mensagem = true
+                            } else if (semPrioridadeTarefa) {
+                                tarefasRepository.salvar(
+                                    tituloTarefa,
+                                    descricaoTarefa,
+                                    Constants.SEM_PRIORIDADE
+                                )
+                                mensagem = true
+                            }
+                        }
+                    }
+
+                    scope.launch(Dispatchers.Main) {
+                        if (mensagem) {
+                            Toast.makeText(context, "Tarefa salva com sucesso!", Toast.LENGTH_SHORT)
+                                .show()
+
+                            navController.popBackStack()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Título da tarefa é obrigatório.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

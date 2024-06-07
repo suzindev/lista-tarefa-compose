@@ -3,7 +3,6 @@ package com.suzintech.listatarefas.view
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,8 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.suzintech.listatarefas.R
-import com.suzintech.listatarefas.itemLista.TarefaItem
-import com.suzintech.listatarefas.model.Tarefa
 import com.suzintech.listatarefas.ui.theme.BLACK
 import com.suzintech.listatarefas.ui.theme.PURPLE700
 import com.suzintech.listatarefas.ui.theme.WHITE
@@ -55,33 +52,33 @@ fun ListaTarefas(
             }
         }
     ) {
-        val listaTarefas: MutableList<Tarefa> = mutableListOf(
-            Tarefa(
-                tarefa = "Teste",
-                descricao = "Testando",
-                prioridade = 0
-            ),
-            Tarefa(
-                tarefa = "Teste1",
-                descricao = "Testando1",
-                prioridade = 1
-            ),
-            Tarefa(
-                tarefa = "Teste2",
-                descricao = "Testando2",
-                prioridade = 2
-            ),
-            Tarefa(
-                tarefa = "Teste3",
-                descricao = "Testando3",
-                prioridade = 3
-            )
-        )
+//        val listaTarefas: MutableList<Tarefa> = mutableListOf(
+//            Tarefa(
+//                tarefa = "Teste",
+//                descricao = "Testando",
+//                prioridade = 0
+//            ),
+//            Tarefa(
+//                tarefa = "Teste1",
+//                descricao = "Testando1",
+//                prioridade = 1
+//            ),
+//            Tarefa(
+//                tarefa = "Teste2",
+//                descricao = "Testando2",
+//                prioridade = 2
+//            ),
+//            Tarefa(
+//                tarefa = "Teste3",
+//                descricao = "Testando3",
+//                prioridade = 3
+//            )
+//        )
 
         LazyColumn {
-            itemsIndexed(listaTarefas) { position, _ ->
-                TarefaItem(position, listaTarefas)
-            }
+//            itemsIndexed(listaTarefas) { position, _ ->
+//                TarefaItem(position, listaTarefas)
+//            }
         }
     }
 }
